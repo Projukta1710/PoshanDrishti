@@ -14,6 +14,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import android.content.Intent
 
 class MainActivity : AppCompatActivity() {
 
@@ -218,11 +219,9 @@ class MainActivity : AppCompatActivity() {
 
             else -> {
 
-                Toast.makeText(
-                    this,
-                    "Selected Role: $selectedRole\nLogin UI working!",
-                    Toast.LENGTH_LONG
-                ).show()
+                val intent = Intent(this, DashboardActivity::class.java)
+                startActivity(intent)
+                finish()
             }
         }
     }
