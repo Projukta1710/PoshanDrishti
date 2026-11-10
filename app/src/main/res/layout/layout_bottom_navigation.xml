@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<HorizontalScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+
+    android:id="@+id/bottomNavigationScroll"
+    android:layout_width="match_parent"
+    android:layout_height="88dp"
+
+    android:background="@drawable/bg_bottom_navigation"
+    android:elevation="8dp"
+
+    android:fillViewport="true"
+    android:overScrollMode="never"
+    android:scrollbars="none">
+
+    <LinearLayout
+        android:id="@+id/bottomNavigationItems"
+
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+
+        android:paddingHorizontal="8dp"
+        android:paddingVertical="7dp">
+
+        <!-- Home -->
+        <include
+            android:id="@+id/navHome"
+            layout="@layout/item_bottom_navigation" />
+
+        <!-- Children -->
+        <include
+            android:id="@+id/navChildren"
+            layout="@layout/item_bottom_navigation" />
+
+        <!-- Assess -->
+        <include
+            android:id="@+id/navAssess"
+            layout="@layout/item_bottom_navigation" />
+
+        <!-- Reports -->
+        <include
+            android:id="@+id/navReports"
+            layout="@layout/item_bottom_navigation" />
+
+        <!-- Profile -->
+        <include
+            android:id="@+id/navProfile"
+            layout="@layout/item_bottom_navigation" />
+
+    </LinearLayout>
+
+</HorizontalScrollView>

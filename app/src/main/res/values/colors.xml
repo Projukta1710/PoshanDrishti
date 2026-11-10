@@ -1,5 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
+    <!-- Default colors -->
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+
+    <!-- PoshanDrishti navigation colors -->
+    <color name="poshan_green">#075B2B</color>
+    <color name="poshan_green_light">#E5F5DF</color>
+    <color name="poshan_text">#101B14</color>
+    <color name="poshan_screen">#FAFCF9</color>
+
 </resources>
