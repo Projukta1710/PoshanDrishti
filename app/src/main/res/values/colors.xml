@@ -17,4 +17,10 @@
     <color name="warning">#E9A23B</color>
     <color name="danger">#D94343</color>
 
+    <!-- PoshanDrishti Navigation Colors -->
+    <color name="poshan_green">#075B2B</color>
+    <color name="poshan_green_light">#E5F5DF</color>
+    <color name="poshan_text">#101B14</color>
+    <color name="poshan_screen">#FAFCF9</color>
+
 </resources>
