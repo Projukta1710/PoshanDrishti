@@ -18,6 +18,11 @@ xmlns:tools="http://schemas.android.com/tools">
         android:exported="false"
         android:windowSoftInputMode="adjustResize" />
 
+    <!-- Dashboard Activity -->
+    <activity
+        android:name=".DashboardActivity"
+        android:exported="false" />
+
     <!-- Splash Screen (Launcher) -->
     <activity
         android:name=".activities.SplashActivity"
