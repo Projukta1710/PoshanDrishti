@@ -1,29 +1,45 @@
-
 package com.poshandrishti.app
 
-import android.os.Bundle
+import android.content.Intent
+import android.content.res.ColorStateList
 import android.graphics.Color
+import android.os.Bundle
 import android.text.method.HideReturnsTransformationMethod
 import android.text.method.PasswordTransformationMethod
+import android.view.View
 import android.widget.Button
 import android.widget.EditText
+import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
-import com.poshandrishti.app.activities.HomeActivity
+
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import android.content.Intent
+import androidx.core.widget.ImageViewCompat
+import com.poshandrishti.app.activities.HomeActivity
 
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var roleAnganwadi: TextView
-    private lateinit var roleHealthcare: TextView
-    private lateinit var roleAdmin: TextView
+    // ROLE CARDS
+
+    private lateinit var roleAnganwadi: LinearLayout
+    private lateinit var roleHealthcare: LinearLayout
+    private lateinit var roleAdmin: LinearLayout
+
+    // ILLUSTRATIONS
+
+    private lateinit var ivHealthcareIllustration: ImageView
+    private lateinit var ivAdminIllustration: ImageView
+
+    // INPUT FIELDS
 
     private lateinit var etMobile: EditText
     private lateinit var etPassword: EditText
+
+    // VARIABLES
 
     private var selectedRole = "Anganwadi Worker"
     private var passwordVisible = false
@@ -31,22 +47,21 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        // Enable edge-to-edge display
         enableEdgeToEdge()
 
-        // Load login screen
         setContentView(R.layout.activity_main)
 
-        // Handle system bars
+        // SYSTEM BARS
+
         ViewCompat.setOnApplyWindowInsetsListener(
             findViewById(R.id.main)
-        ) { v, insets ->
+        ) { view, insets ->
 
             val systemBars = insets.getInsets(
                 WindowInsetsCompat.Type.systemBars()
             )
 
-            v.setPadding(
+            view.setPadding(
                 systemBars.left,
                 systemBars.top,
                 systemBars.right,
@@ -56,19 +71,33 @@ class MainActivity : AppCompatActivity() {
             insets
         }
 
-        // Connect XML elements
+        // CONNECT ROLE CARDS
+
         roleAnganwadi = findViewById(R.id.roleAnganwadi)
         roleHealthcare = findViewById(R.id.roleHealthcare)
         roleAdmin = findViewById(R.id.roleAdmin)
 
+        // CONNECT ILLUSTRATIONS
+
+        ivHealthcareIllustration =
+            findViewById(R.id.ivHealthcareIllustration)
+
+        ivAdminIllustration =
+            findViewById(R.id.ivAdminIllustration)
+
+        // CONNECT INPUTS
+
         etMobile = findViewById(R.id.etMobile)
         etPassword = findViewById(R.id.etPassword)
 
-        // Initialize functions
+        // INITIALIZE
+
+        updateRoleStyles()
         setupRoleSelection()
         setupPasswordToggle()
 
-        // Forgot Password
+        // FORGOT PASSWORD
+
         findViewById<TextView>(R.id.tvForgotPassword)
             .setOnClickListener {
 
@@ -79,13 +108,15 @@ class MainActivity : AppCompatActivity() {
                 ).show()
             }
 
-        // Login Button
+        // LOGIN BUTTON
+
         findViewById<Button>(R.id.btnLogin)
             .setOnClickListener {
                 loginUser()
             }
 
-        // OTP Button
+        // OTP BUTTON
+
         findViewById<Button>(R.id.btnOtp)
             .setOnClickListener {
 
@@ -108,72 +139,119 @@ class MainActivity : AppCompatActivity() {
     }
 
     // ROLE SELECTION
+
     private fun setupRoleSelection() {
 
         roleAnganwadi.setOnClickListener {
+
             selectedRole = "Anganwadi Worker"
             updateRoleStyles()
         }
 
         roleHealthcare.setOnClickListener {
+
             selectedRole = "Healthcare Worker"
             updateRoleStyles()
         }
 
         roleAdmin.setOnClickListener {
+
             selectedRole = "Block / Admin Officer"
             updateRoleStyles()
         }
     }
 
-    // UPDATE ROLE APPEARANCE
+    // UPDATE ROLE STYLES
+
     private fun updateRoleStyles() {
 
-        val roles = listOf(
+        updateSingleRole(
             roleAnganwadi,
+            selectedRole == "Anganwadi Worker",
+            "Anganwadi\nWorker"
+        )
+
+        updateSingleRole(
             roleHealthcare,
-            roleAdmin
+            selectedRole == "Healthcare Worker",
+            "Healthcare\nWorker"
         )
 
-        val labels = listOf(
-            "♙\nAnganwadi\nWorker",
-            "♡\nHealthcare\nWorker",
-            "⌂\nBlock / Admin\nOfficer"
+        updateSingleRole(
+            roleAdmin,
+            selectedRole == "Block / Admin Officer",
+            "Block / Admin\nOfficer"
         )
 
-        val selectedIndex = when (selectedRole) {
-            "Anganwadi Worker" -> 0
-            "Healthcare Worker" -> 1
-            else -> 2
-        }
+        // SHOW HEALTHCARE ILLUSTRATION
 
-        roles.forEachIndexed { index, role ->
-
-            if (index == selectedIndex) {
-
-                role.setBackgroundResource(
-                    R.drawable.bg_role_selected
-                )
-
-                role.setTextColor(Color.WHITE)
-                role.text = labels[index] + " ✓"
-
+        ivHealthcareIllustration.visibility =
+            if (selectedRole == "Healthcare Worker") {
+                View.VISIBLE
             } else {
-
-                role.setBackgroundResource(
-                    R.drawable.bg_role_unselected
-                )
-
-                role.setTextColor(
-                    Color.parseColor("#075B37")
-                )
-
-                role.text = labels[index]
+                View.GONE
             }
+
+        // SHOW ADMIN ILLUSTRATION
+
+        ivAdminIllustration.visibility =
+            if (selectedRole == "Block / Admin Officer") {
+                View.VISIBLE
+            } else {
+                View.GONE
+            }
+    }
+
+    // UPDATE INDIVIDUAL ROLE CARD
+
+    private fun updateSingleRole(
+        card: LinearLayout,
+        isSelected: Boolean,
+        label: String
+    ) {
+
+        val greenColor = Color.parseColor("#075B37")
+
+        val textColor = if (isSelected) {
+            Color.WHITE
+        } else {
+            greenColor
         }
+
+        // BACKGROUND
+
+        card.setBackgroundResource(
+            if (isSelected) {
+                R.drawable.bg_role_selected
+            } else {
+                R.drawable.bg_role_unselected
+            }
+        )
+
+        // ICON
+
+        val icon = card.getChildAt(0) as ImageView
+
+        ImageViewCompat.setImageTintList(
+            icon,
+            ColorStateList.valueOf(textColor)
+        )
+
+        // ROLE TEXT
+
+        val roleText = card.getChildAt(1) as TextView
+
+        roleText.text = if (isSelected) {
+            "$label ✓"
+        } else {
+            label
+        }
+
+        roleText.setTextColor(textColor)
     }
 
     // SHOW / HIDE PASSWORD
+
     private fun setupPasswordToggle() {
 
         findViewById<TextView>(R.id.tvTogglePassword)
@@ -198,6 +276,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     // LOGIN VALIDATION
+
     private fun loginUser() {
 
         val mobile = etMobile.text.toString().trim()
@@ -218,7 +297,18 @@ class MainActivity : AppCompatActivity() {
             }
 
             else -> {
-                val intent = Intent(this, HomeActivity::class.java)
+
+                Toast.makeText(
+                    this,
+                    "Login successful!",
+                    Toast.LENGTH_SHORT
+                ).show()
+
+                val intent = Intent(
+                    this,
+                    HomeActivity::class.java
+                )
+
                 startActivity(intent)
                 finish()
             }
