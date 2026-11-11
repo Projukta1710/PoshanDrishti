@@ -18,6 +18,11 @@ xmlns:tools="http://schemas.android.com/tools">
         android:exported="false"
         android:windowSoftInputMode="adjustResize" />
 
+    <!-- PoshanDrishti Home Dashboard -->
+    <activity
+        android:name=".activities.HomeActivity"
+        android:exported="false" />
+
     <!-- Dashboard Activity -->
     <activity
         android:name=".DashboardActivity"
