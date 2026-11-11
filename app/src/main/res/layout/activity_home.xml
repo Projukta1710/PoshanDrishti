@@ -1,10 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.drawerlayout.widget.DrawerLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/drawerLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
+    android:fitsSystemWindows="true"
     android:background="#F4F9F2">
-
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -25,11 +30,16 @@
                 android:orientation="horizontal">
 
                 <TextView
+                    android:id="@+id/btnMenu"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="☰"
                     android:textSize="30sp"
-                    android:textColor="#07552F"/>
+                    android:textColor="#07552F"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:padding="8dp"
+                    android:contentDescription="Open navigation menu"/>
 
                 <LinearLayout
                     android:layout_width="0dp"
@@ -450,3 +460,161 @@
         layout="@layout/layout_bottom_navigation"/>
 
 </LinearLayout>
+
+    <!-- SIDE NAVIGATION DRAWER -->
+    <ScrollView
+        android:id="@+id/navigationDrawer"
+        android:layout_width="300dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        android:background="#FFFFFF"
+        android:elevation="16dp"
+        android:fillViewport="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <!-- BRAND HEADER -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="190dp"
+                android:orientation="vertical"
+                android:gravity="center_vertical"
+                android:padding="22dp"
+                android:background="#E5F3DF">
+
+                <ImageView
+                    android:layout_width="65dp"
+                    android:layout_height="65dp"
+                    android:src="@drawable/poshan_logo"
+                    android:contentDescription="PoshanDrishti Logo"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="PoshanDrishti"
+                    android:textColor="#07552F"
+                    android:textSize="23sp"
+                    android:textStyle="bold"
+                    android:layout_marginTop="8dp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Monitor • Assess • Nourish • Grow"
+                    android:textColor="#376B4B"
+                    android:textSize="11sp"/>
+
+            </LinearLayout>
+
+            <!-- WORKER DETAILS -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="18dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Hello, Sunita! 👋"
+                    android:textColor="#07552F"
+                    android:textSize="19sp"
+                    android:textStyle="bold"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Anganwadi Worker"
+                    android:textColor="#777777"
+                    android:textSize="13sp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Anganwadi Centre 12, Satna"
+                    android:textColor="#555555"
+                    android:textSize="12sp"
+                    android:layout_marginTop="5dp"/>
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#EEEEEE"/>
+
+            <!-- MENU ITEMS -->
+            <TextView
+                android:id="@+id/menuHome"
+                style="@style/DrawerMenuItem"
+                android:text="⌂    Home"/>
+
+            <TextView
+                android:id="@+id/menuCentre"
+                style="@style/DrawerMenuItem"
+                android:text="My Anganwadi Centre"/>
+
+            <TextView
+                android:id="@+id/menuBeneficiaries"
+                style="@style/DrawerMenuItem"
+                android:text="Beneficiary Registration"/>
+
+            <TextView
+                android:id="@+id/menuSchemes"
+                style="@style/DrawerMenuItem"
+                android:text="Nutrition Schemes"/>
+
+            <TextView
+                android:id="@+id/menuNotifications"
+                style="@style/DrawerMenuItem"
+                android:text="Notifications     (3)"/>
+
+            <TextView
+                android:id="@+id/menuSync"
+                style="@style/DrawerMenuItem"
+                android:text="Sync Data"/>
+
+            <TextView
+                android:id="@+id/menuHistory"
+                style="@style/DrawerMenuItem"
+                android:text="Activity History"/>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#EEEEEE"
+                android:layout_marginTop="8dp"/>
+
+            <TextView
+                android:id="@+id/menuHelp"
+                style="@style/DrawerMenuItem"
+                android:text="Help &amp; Support"/>
+
+            <TextView
+                android:id="@+id/menuAbout"
+                style="@style/DrawerMenuItem"
+                android:text="About PoshanDrishti"/>
+
+            <TextView
+                android:id="@+id/menuLogout"
+                style="@style/DrawerMenuItem"
+                android:text="Logout"
+                android:textColor="#C62828"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="PoshanDrishti v1.0.0"
+                android:gravity="center"
+                android:padding="18dp"
+                android:textColor="#888888"
+                android:textSize="11sp"/>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</androidx.drawerlayout.widget.DrawerLayout>
