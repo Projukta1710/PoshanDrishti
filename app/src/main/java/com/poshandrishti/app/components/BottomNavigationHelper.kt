@@ -7,6 +7,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import com.poshandrishti.app.R
+import android.widget.LinearLayout
 
 class BottomNavigationHelper(
 
@@ -106,16 +107,12 @@ class BottomNavigationHelper(
         items.forEach { item ->
 
             val itemView =
-                navigationView.findViewById<View>(item.rootId)
+                navigationView.findViewById<LinearLayout>(item.rootId)
+            val content = itemView
 
-            val content =
-                itemView.findViewById<View>(R.id.navItemContent)
+            val icon = itemView.getChildAt(0) as ImageView
 
-            val icon =
-                itemView.findViewById<ImageView>(R.id.navItemIcon)
-
-            val label =
-                itemView.findViewById<TextView>(R.id.navItemLabel)
+            val label = itemView.getChildAt(1) as TextView
 
             val isSelected =
                 item.destination == selectedDestination

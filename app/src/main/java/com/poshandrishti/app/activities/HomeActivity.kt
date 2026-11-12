@@ -2,32 +2,43 @@
 package com.poshandrishti.app.activities
 
 import android.os.Bundle
+import android.view.View
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import com.poshandrishti.app.R
+import com.poshandrishti.app.components.BottomNavigationHelper
+import com.poshandrishti.app.fragments.PlaceholderFragment
+import androidx.activity.OnBackPressedCallback
+import com.poshandrishti.app.fragments.ChildrenFragment
 
 class HomeActivity : AppCompatActivity() {
 
     private lateinit var drawerLayout: DrawerLayout
+    private lateinit var bottomNavigationHelper: BottomNavigationHelper
+
+    private lateinit var homeContent: View
+    private lateinit var pageContainer: View
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
 
-        // Initialize drawer
         drawerLayout = findViewById(R.id.drawerLayout)
+        homeContent = findViewById(R.id.homeContent)
+        pageContainer = findViewById(R.id.pageContainer)
 
-        // Hamburger menu click
+        // Hamburger menu
         findViewById<TextView>(R.id.btnMenu).setOnClickListener {
             drawerLayout.openDrawer(GravityCompat.START)
         }
 
-        // Home menu
+        // Home drawer item
         findViewById<TextView>(R.id.menuHome).setOnClickListener {
             drawerLayout.closeDrawer(GravityCompat.START)
+            showHome()
         }
 
         // Other drawer menu options
@@ -40,23 +51,87 @@ class HomeActivity : AppCompatActivity() {
         setupMenuItem(R.id.menuHelp, "Help & Support")
         setupMenuItem(R.id.menuAbout, "About PoshanDrishti")
 
-        // Logout placeholder
+        // Logout
         findViewById<TextView>(R.id.menuLogout).setOnClickListener {
             drawerLayout.closeDrawer(GravityCompat.START)
-
             Toast.makeText(
                 this,
                 "Logout functionality coming soon",
                 Toast.LENGTH_SHORT
             ).show()
         }
+
+        // Bottom navigation
+        bottomNavigationHelper = BottomNavigationHelper(
+            findViewById(R.id.bottomNavigationScroll)
+        ) { destination ->
+
+            when (destination) {
+                BottomNavigationHelper.Destination.HOME -> showHome()
+
+                BottomNavigationHelper.Destination.CHILDREN ->
+                    showChildren()
+
+                BottomNavigationHelper.Destination.ASSESS ->
+                    showPage("Measure")
+
+                BottomNavigationHelper.Destination.REPORTS ->
+                    showPage("Supplies")
+
+                BottomNavigationHelper.Destination.PROFILE ->
+                    showPage("Profile")
+            }
+        }
+        onBackPressedDispatcher.addCallback(
+            this,
+            object : OnBackPressedCallback(true) {
+                override fun handleOnBackPressed() {
+                    when {
+                        drawerLayout.isDrawerOpen(GravityCompat.START) -> {
+                            drawerLayout.closeDrawer(GravityCompat.START)
+                        }
+                        supportFragmentManager.backStackEntryCount > 0 -> {
+                            supportFragmentManager.popBackStack()
+                        }
+                        pageContainer.visibility == View.VISIBLE -> {
+                            showHome()
+                        }
+                        else -> {
+                            finish()
+                        }
+                    }
+                }
+            }
+        )
     }
 
-    // Handle drawer menu clicks
+    private fun showHome() {
+        homeContent.visibility = View.VISIBLE
+        pageContainer.visibility = View.GONE
+    }
+
+    private fun showPage(title: String) {
+        homeContent.visibility = View.GONE
+        pageContainer.visibility = View.VISIBLE
+
+        supportFragmentManager.beginTransaction()
+            .replace(
+                R.id.pageContainer,
+                PlaceholderFragment.newInstance(title)
+            )
+            .commit()
+    }
+    private fun showChildren() {
+        homeContent.visibility = View.GONE
+        pageContainer.visibility = View.VISIBLE
+
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.pageContainer, ChildrenFragment())
+            .commit()
+    }
+
     private fun setupMenuItem(id: Int, name: String) {
-
         findViewById<TextView>(id).setOnClickListener {
-
             drawerLayout.closeDrawer(GravityCompat.START)
 
             Toast.makeText(
@@ -64,17 +139,6 @@ class HomeActivity : AppCompatActivity() {
                 "$name selected",
                 Toast.LENGTH_SHORT
             ).show()
-        }
-    }
-
-    // Handle Android back button
-    @Deprecated("Deprecated in Android API")
-    override fun onBackPressed() {
-
-        if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
-            drawerLayout.closeDrawer(GravityCompat.START)
-        } else {
-            super.onBackPressed()
         }
     }
 }
