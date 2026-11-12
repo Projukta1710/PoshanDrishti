@@ -11,6 +11,7 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
     <ScrollView
+        android:id="@+id/homeContent"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
@@ -454,6 +455,12 @@
 
         </LinearLayout>
     </ScrollView>
+        <FrameLayout
+            android:id="@+id/pageContainer"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:visibility="gone" />
 
     <!-- BOTTOM NAVIGATION -->
     <include
