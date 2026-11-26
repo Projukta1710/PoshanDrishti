@@ -8,12 +8,15 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
+import androidx.activity.OnBackPressedCallback
+
 import com.poshandrishti.app.R
 import com.poshandrishti.app.components.BottomNavigationHelper
 import com.poshandrishti.app.fragments.PlaceholderFragment
-import androidx.activity.OnBackPressedCallback
 import com.poshandrishti.app.fragments.ChildrenFragment
 import com.poshandrishti.app.fragments.AssessmentFragment
+import com.poshandrishti.app.fragments.ReportsFragment
+
 class HomeActivity : AppCompatActivity() {
 
     private lateinit var drawerLayout: DrawerLayout
@@ -54,6 +57,7 @@ class HomeActivity : AppCompatActivity() {
         // Logout
         findViewById<TextView>(R.id.menuLogout).setOnClickListener {
             drawerLayout.closeDrawer(GravityCompat.START)
+
             Toast.makeText(
                 this,
                 "Logout functionality coming soon",
@@ -76,12 +80,14 @@ class HomeActivity : AppCompatActivity() {
                     showAssessment()
 
                 BottomNavigationHelper.Destination.REPORTS ->
-                    showPage("Supplies")
+                    showReports()
 
                 BottomNavigationHelper.Destination.PROFILE ->
                     showPage("Profile")
             }
         }
+
+        // Back button handling
         onBackPressedDispatcher.addCallback(
             this,
             object : OnBackPressedCallback(true) {
@@ -90,12 +96,15 @@ class HomeActivity : AppCompatActivity() {
                         drawerLayout.isDrawerOpen(GravityCompat.START) -> {
                             drawerLayout.closeDrawer(GravityCompat.START)
                         }
+
                         supportFragmentManager.backStackEntryCount > 0 -> {
                             supportFragmentManager.popBackStack()
                         }
+
                         pageContainer.visibility == View.VISIBLE -> {
                             showHome()
                         }
+
                         else -> {
                             finish()
                         }
@@ -121,6 +130,7 @@ class HomeActivity : AppCompatActivity() {
             )
             .commit()
     }
+
     private fun showChildren() {
         homeContent.visibility = View.GONE
         pageContainer.visibility = View.VISIBLE
@@ -129,6 +139,7 @@ class HomeActivity : AppCompatActivity() {
             .replace(R.id.pageContainer, ChildrenFragment())
             .commit()
     }
+
     private fun showAssessment() {
         homeContent.visibility = View.GONE
         pageContainer.visibility = View.VISIBLE
@@ -137,6 +148,17 @@ class HomeActivity : AppCompatActivity() {
             .replace(R.id.pageContainer, AssessmentFragment())
             .commit()
     }
+
+    // NEW: Reports page
+    private fun showReports() {
+        homeContent.visibility = View.GONE
+        pageContainer.visibility = View.VISIBLE
+
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.pageContainer, ReportsFragment())
+            .commit()
+    }
+
     private fun setupMenuItem(id: Int, name: String) {
         findViewById<TextView>(id).setOnClickListener {
             drawerLayout.closeDrawer(GravityCompat.START)
