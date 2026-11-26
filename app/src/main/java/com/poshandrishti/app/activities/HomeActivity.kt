@@ -13,7 +13,7 @@ import com.poshandrishti.app.components.BottomNavigationHelper
 import com.poshandrishti.app.fragments.PlaceholderFragment
 import androidx.activity.OnBackPressedCallback
 import com.poshandrishti.app.fragments.ChildrenFragment
-
+import com.poshandrishti.app.fragments.AssessmentFragment
 class HomeActivity : AppCompatActivity() {
 
     private lateinit var drawerLayout: DrawerLayout
@@ -73,7 +73,7 @@ class HomeActivity : AppCompatActivity() {
                     showChildren()
 
                 BottomNavigationHelper.Destination.ASSESS ->
-                    showPage("Measure")
+                    showAssessment()
 
                 BottomNavigationHelper.Destination.REPORTS ->
                     showPage("Supplies")
@@ -129,7 +129,14 @@ class HomeActivity : AppCompatActivity() {
             .replace(R.id.pageContainer, ChildrenFragment())
             .commit()
     }
+    private fun showAssessment() {
+        homeContent.visibility = View.GONE
+        pageContainer.visibility = View.VISIBLE
 
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.pageContainer, AssessmentFragment())
+            .commit()
+    }
     private fun setupMenuItem(id: Int, name: String) {
         findViewById<TextView>(id).setOnClickListener {
             drawerLayout.closeDrawer(GravityCompat.START)
